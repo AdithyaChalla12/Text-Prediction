@@ -1,25 +1,49 @@
 # 🧠 Text Prediction Using LSTM
 
-This project implements a word-level text prediction model using an LSTM-based neural network in TensorFlow/Keras. The model is trained on a text corpus and is capable of predicting the next word(s) given a seed input.
+This repository contains a deep learning project that uses an LSTM (Long Short-Term Memory) neural network to perform next-word prediction based on a given text corpus. The model is trained on the writings of Benjamin Franklin and can generate text sequences when given a seed phrase.
 
 ---
 
 ## 📌 Objective
 
-The primary goal of this project is to:
-- Learn the language structure from a given corpus (e.g., `franklin.txt`)
-- Predict the next word based on a sequence of previous words
-- Generate coherent and meaningful text sequences
+The primary objective of this project is to:
+
+- Learn patterns and semantics from historical English text.
+- Predict the most likely next word given a sequence of previous words.
+- Generate new, coherent text based on a user-provided input phrase.
+
+This project serves as an educational example of natural language processing (NLP), sequence modeling, and deep learning for text generation using TensorFlow and Keras.
 
 ---
 
 ## 🛠️ Model Architecture
 
-The model is built using TensorFlow's Keras API with the following architecture:
+The model is a simple Sequential neural network built with Keras. It consists of:
+
+- **Embedding Layer**: Converts words into dense vector representations.
+- **LSTM Layer**: Learns dependencies between sequential words.
+- **Dense Output Layer**: Applies a softmax activation to predict the next word.
 
 ```python
-Sequential([
-    Embedding(vocab_size, embedding_dim, input_length=sequence_length),
-    LSTM(units=100),
-    Dense(units=vocab_size, activation='softmax')
-])
+model = Sequential()
+model.add(Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length=max_sequence_len-1))
+model.add(LSTM(units=100))
+model.add(Dense(units=vocab_size, activation='softmax'))
+
+## 📚 Dataset Details
+
+- **File**: `franklin.txt`
+- **Content**: Likely consists of public domain writings or speeches by Benjamin Franklin.
+
+### 🧼 Preprocessing Steps:
+- Removal of newlines, special characters (like quotation marks), and duplicate spaces.
+- Tokenization using Keras `Tokenizer` (at the word level).
+- Generation of input-output sequences for supervised training.
+- Categorical one-hot encoding of output labels to be used in classification.
+
+---
+
+## 🔁 Sequence Generation Process
+
+The model is trained on short sequences of words, where the objective is to predict the next word given a sequence of prior words. A sliding window technique is used to create these input-output pairs.
+
