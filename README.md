@@ -29,7 +29,7 @@ model = Sequential()
 model.add(Embedding(input_dim=vocab_size, output_dim=embedding_dim, input_length=max_sequence_len-1))
 model.add(LSTM(units=100))
 model.add(Dense(units=vocab_size, activation='softmax'))
-
+```
 ## 📚 Dataset Details
 
 - **File**: `franklin.txt`
@@ -46,4 +46,17 @@ model.add(Dense(units=vocab_size, activation='softmax'))
 ## 🔁 Sequence Generation Process
 
 The model is trained on short sequences of words, where the objective is to predict the next word given a sequence of prior words. A sliding window technique is used to create these input-output pairs.
+
+### 🔤 Example:
+Given the sentence:
+"education is the most powerful weapon"
+
+
+We generate the following training pair:
+- **Input**: `"education is the"`
+- **Output**: `"most"`
+
+The process continues across the entire corpus, generating all possible sub-sequences. Each input sequence is one word shorter than the full sequence, and the output is the next immediate word.
+
+This type of training helps the LSTM learn the likelihood of a word following a given context.
 
